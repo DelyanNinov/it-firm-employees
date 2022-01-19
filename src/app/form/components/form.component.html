@@ -39,6 +39,6 @@
       <textarea formControlName="message" style ="min-height: 100px;" matInput placeholder="Моля, напишете съобщение..."></textarea>
       <mat-error *ngIf="message?.errors?.['required']">Полето е задължително</mat-error>
     </mat-form-field>
-    <button type="submit" mat-raised-button color="primary" [disabled] = "!form.valid">Вход</button>
+    <button type="submit" mat-raised-button color="primary" [disabled] = "!form.valid">Изпрати</button>
     </form>
   </section>

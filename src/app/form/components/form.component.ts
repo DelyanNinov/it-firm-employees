@@ -1,57 +1,72 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, OnInit, OnDestroy} from '@angular/core'
 import {FormGroup, FormBuilder, Validators, AbstractControl, FormControl} from '@angular/forms'
-import {map, Observable, startWith} from 'rxjs'
+import {map, Observable, startWith, Subscription, tap} from 'rxjs'
 import { FormService } from '../services/form.service'
 import { EmployeeInterface } from '../types/employee.interface'
 
 @Component({
-  selector: 'mc-login',
+  selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css'],
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, OnDestroy{
 
   form: FormGroup
+  filteredOptions: Observable<string[]>;
+  nameSelected: Observable<string>[];
+  names: string[] = []
+  users: EmployeeInterface[] = [];
+  employeesSub: Subscription
+  
 
   constructor(private fb: FormBuilder, private formService: FormService) {}
-  names: string[] = []
-  filteredOptions: Observable<string[]>;
+
 
   ngOnInit(): void {
     this.initializeForm()
-    this.formService.getEmployees().subscribe((employees) => {
+    this.employeesSub = this.formService.getEmployees().subscribe((employees) => {
       employees.map((employee) => this.names.push(employee.name_cyr))
+      employees.map((employee) => this.users.push(employee))
     })
-
   }
 
   initializeForm(): void {
     this.form = this.fb.group({
       nameSearch: new FormControl (['']),
-      startDate: new FormControl  (['']),
-      endDate: new FormControl (['']),
-      email: new FormControl ([''], [Validators.required, Validators.email]),
+      startDate: new FormControl  ([''], [Validators.required]),
+      endDate: new FormControl ([''], [Validators.required]),
+      email: new FormControl ([''], [Validators.required, Validators.email, ]),
       message: new FormControl ([''], [Validators.required]),
+    })
+    this.form.controls['nameSearch'].valueChanges.subscribe((value)=>{
+        const existingName = this.users.filter((user)=> user.name_cyr === value);
+        if(existingName.length>0){
+          this.form.controls['email'].setValue(existingName[0].email)
+        } else {
+          this.form.controls['email'].setValue('')
+        }
     })
     this.filteredOptions = this.form.controls['nameSearch'].valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value)),
+      map((value) => {
+        return this._filter(value)
+      })
     );
   }
   private _filter(value: string): string[] {
-    console.log();
-    
     const filterValue = value.toLowerCase();
+
     return this.names.filter(name => name.toLowerCase().includes(filterValue));
   }
   get email() { return this.form.get('email'); }
   get message() { return this.form.get('message'); }
+
+
   onSubmit(): void {
     console.log(this.form.value);
-    
-    // const request: LoginRequestInterface = {
-    //   user: this.form.value,
-    // }
-    // this.store.dispatch(loginAction({request}))
+  }
+
+  ngOnDestroy(): void {
+      this.employeesSub.unsubscribe();
   }
 }
