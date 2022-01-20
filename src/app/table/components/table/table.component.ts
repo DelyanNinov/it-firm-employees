@@ -9,8 +9,8 @@ import { DatePipe } from '@angular/common';
 })
 export class TableComponent implements OnInit {
   users$ = this.formService.users$;
-  columnDefs: any[] = [];
-  rowData: any[] = [];
+  columnDefs: Object[] = [];
+  rowData: Object[] = [];
   defaultColDef;
   constructor(private formService: FormService, private datePipe: DatePipe) {
     this.defaultColDef = {
@@ -18,6 +18,9 @@ export class TableComponent implements OnInit {
       minWidth: 110,
       editable: true,
       resizable: true,
+      singleClickEdit: true,
+      isPop: true,
+      cellEditor: 'doublingEditor',
     };
   }
   ngOnInit(): void {
@@ -37,6 +40,7 @@ export class TableComponent implements OnInit {
           Object.assign(newUser, date);
         });
         this.rowData.push(newUser);
+        console.log(this.rowData);
       });
     });
 
@@ -47,7 +51,7 @@ export class TableComponent implements OnInit {
 
   setupTable() {
     const d = new Date('2022-01-01');
-    const f = new Date('2022-01-05');
+    const f = new Date('2022-01-30');
     const dates = this.getDaysArray(d, f);
     const formatedDates = dates.map((date) =>
       this.datePipe.transform(date, 'yyyy-MM-dd')
@@ -59,7 +63,9 @@ export class TableComponent implements OnInit {
     console.log(formatedDates);
 
     this.columnDefs.push({ field: 'name_cyr' });
+
     this.columnDefs = this.columnDefs.concat(finalDates);
+    console.log(this.columnDefs);
   }
 
   getDaysArray(start: Date, end: Date) {
