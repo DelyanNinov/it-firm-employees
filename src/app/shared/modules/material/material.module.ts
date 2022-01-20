@@ -20,6 +20,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatTableModule} from '@angular/material/table';
+
 @NgModule({
     imports: [
         MatButtonModule, 
@@ -42,7 +44,8 @@ import {MatMenuModule} from '@angular/material/menu';
         MatSlideToggleModule,
         MatDialogModule,
         MatBadgeModule,
-        MatMenuModule
+        MatMenuModule,
+        MatTableModule
     ],
     exports: [
         MatButtonModule,
@@ -65,10 +68,11 @@ import {MatMenuModule} from '@angular/material/menu';
         MatSlideToggleModule,
         MatDialogModule,
         MatBadgeModule,
-        MatMenuModule
+        MatMenuModule,
+        MatTableModule
     ]
 })
 
-export class MaterialModue{
+export class MaterialModule{
 
 }

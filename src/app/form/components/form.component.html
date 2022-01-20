@@ -4,10 +4,11 @@
       <mat-form-field fxFlex="1">
           <input type="text" matInput placeholder="Име и фамилия" [matAutocomplete]="auto" formControlName="nameSearch"/>
           <mat-autocomplete #auto="matAutocomplete" >
-          <mat-option *ngFor="let name of filteredOptions  | async" [value]="name">
+          <mat-option *ngFor="let name of filteredOptions$  | async" [value]="name">
             {{name}}
           </mat-option>
         </mat-autocomplete>
+        <mat-error *ngIf="nameSearch?.errors?.['required']">Полето е задължително</mat-error>
       </mat-form-field>
 
       <mat-form-field >
