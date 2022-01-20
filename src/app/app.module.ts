@@ -7,16 +7,30 @@ import { FormModule } from './form/form.module';
 import { TableComponent } from './table/components/table/table.component';
 import { TableModule } from './table/table.module';
 import { DatePipe } from '@angular/common';
+import { HeaderModule } from './header/header.module';
+
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { LoginModule } from './auth/login.module';
+import { RegisterModule } from './auth/register.module';
+
+
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormModule,
-    TableModule
+    TableModule,
+    HeaderModule,
+    FlexLayoutModule,
+    LoginModule,
+    RegisterModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
