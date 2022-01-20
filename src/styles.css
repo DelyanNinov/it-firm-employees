@@ -3,3 +3,8 @@
 
 @import "ag-grid-community/dist/styles/ag-grid.css";
 @import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+.ag-theme-alpine .ag-header-cell,
+.ag-theme-alpine .ag-header-group-cell,
+.ag-theme-alpine .ag-ltr .ag-cell {
+  border-right: 1px solid #d9dddf;
+}
