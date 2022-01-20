@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormService } from 'src/app/form/services/form.service';
-import { ColDef } from 'ag-grid-community';
 import { DatePipe } from '@angular/common';
+import { CellEditor } from '../editor/cellEditor.component';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -11,18 +11,8 @@ export class TableComponent implements OnInit {
   users$ = this.formService.users$;
   columnDefs: Object[] = [];
   rowData: Object[] = [];
-  defaultColDef;
-  constructor(private formService: FormService, private datePipe: DatePipe) {
-    this.defaultColDef = {
-      flex: 1,
-      minWidth: 110,
-      editable: true,
-      resizable: true,
-      singleClickEdit: true,
-      isPop: true,
-      cellEditor: 'doublingEditor',
-    };
-  }
+  frameworkComponents = { mySimpleEditor: CellEditor };
+  constructor(private formService: FormService, private datePipe: DatePipe) {}
   ngOnInit(): void {
     this.users$.subscribe((users) => {
       users.map((user) => {
@@ -57,13 +47,15 @@ export class TableComponent implements OnInit {
       this.datePipe.transform(date, 'yyyy-MM-dd')
     );
     const finalDates = formatedDates.map((date) => {
-      return { field: date };
+      return {
+        field: date,
+        cellEditor: 'mySimpleEditor',
+        editable: true,
+        singleClickEdit: true,
+      };
     });
 
-    console.log(formatedDates);
-
     this.columnDefs.push({ field: 'name_cyr' });
-
     this.columnDefs = this.columnDefs.concat(finalDates);
     console.log(this.columnDefs);
   }

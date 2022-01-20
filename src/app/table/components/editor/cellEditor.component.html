@@ -1,1 +1,3 @@
-<input type="number" [(ngModel)]="value" #input style="width: 100%" />
+<mat-select #selectedValue style="width: 100px" (selectionChange)="onChange($event.value)">
+    <mat-option *ngFor="let day of scheduleList" [value]="day">{{day}}</mat-option>
+</mat-select>

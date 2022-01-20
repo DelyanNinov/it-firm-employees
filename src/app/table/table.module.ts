@@ -7,7 +7,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '../shared/modules/material/material.module';
 import { TableComponent } from './components/table/table.component';
 import { AgGridModule } from 'ag-grid-angular';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { CellEditor } from './components/editor/cellEditor.component';
 const routes = [
   {
     path: 'table',
@@ -16,15 +18,17 @@ const routes = [
 ];
 @NgModule({
   imports: [
+    BrowserModule,
     CommonModule,
     MaterialModule,
     HttpClientModule,
     RouterModule.forChild(routes),
     FormsModule,
+    ReactiveFormsModule,
     NoopAnimationsModule,
     FlexLayoutModule,
-    AgGridModule.withComponents([]),
+    AgGridModule.withComponents([CellEditor]),
   ],
-  declarations: [TableComponent],
+  declarations: [TableComponent, CellEditor],
 })
 export class TableModule {}

@@ -14,7 +14,7 @@ export class FormService {
       name_latin: 'Delyan Ninov',
       email: 'dninov@gmail.com',
       workingDays: [
-        { date: '2022-01-01', shift: 'first' },
+        { date: '2022-01-01', shift: 'office' },
         { date: '2022-01-02', shift: 'home' },
         { date: '2022-01-03', shift: 'rest' },
       ],
@@ -25,8 +25,8 @@ export class FormService {
       name_latin: 'Ivan Ivanov',
       email: 'ivan@gmail.com',
       workingDays: [
-        { date: '2022-01-01', shift: 'first' },
-        { date: '2022-01-02', shift: 'home' },
+        { date: '2022-01-01', shift: 'home' },
+        { date: '2022-01-02', shift: 'office' },
         { date: '2022-01-03', shift: 'rest' },
       ],
     },
@@ -36,9 +36,9 @@ export class FormService {
       name_latin: 'Georgi Dimitrov',
       email: 'georgi@gmail.com',
       workingDays: [
-        { date: '2022-01-01', shift: 'first' },
+        { date: '2022-01-01', shift: 'rest' },
         { date: '2022-01-02', shift: 'home' },
-        { date: '2022-01-03', shift: 'rest' },
+        { date: '2022-01-03', shift: 'office' },
       ],
     },
   ]);

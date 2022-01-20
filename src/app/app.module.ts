@@ -6,9 +6,9 @@ import { AppComponent } from './app.component';
 import { FormModule } from './form/form.module';
 import { TableModule } from './table/table.module';
 import { DatePipe } from '@angular/common';
-
 @NgModule({
   declarations: [AppComponent],
+
   imports: [BrowserModule, AppRoutingModule, FormModule, TableModule],
   providers: [DatePipe],
   bootstrap: [AppComponent],

@@ -23,6 +23,7 @@ const routes = [
     NoopAnimationsModule,
     FlexLayoutModule,
   ],
+  exports: [FormComponent],
   declarations: [FormComponent],
 })
 export class FormModule {}
