@@ -8,11 +8,18 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./table.component.css'],
 })
 export class TableComponent implements OnInit {
-  constructor(private formService: FormService, private datePipe: DatePipe) {}
-
   users$ = this.formService.users$;
   columnDefs: any[] = [];
   rowData: any[] = [];
+  defaultColDef;
+  constructor(private formService: FormService, private datePipe: DatePipe) {
+    this.defaultColDef = {
+      flex: 1,
+      minWidth: 110,
+      editable: true,
+      resizable: true,
+    };
+  }
   ngOnInit(): void {
     this.users$.subscribe((users) => {
       users.map((user) => {
@@ -64,5 +71,8 @@ export class TableComponent implements OnInit {
       arr.push(new Date(dt));
     }
     return arr;
+  }
+  onCellClicked(event: any) {
+    console.log(event);
   }
 }
