@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormService } from 'src/app/form/services/form.service';
 import { DatePipe } from '@angular/common';
 import { CellEditor } from '../editor/cellEditor.component';
+import { Observable, Subscription } from 'rxjs';
+import { TableService } from '../../services/table.service';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -10,48 +12,46 @@ import { CellEditor } from '../editor/cellEditor.component';
 export class TableComponent implements OnInit {
   users$ = this.formService.users$;
   columnDefs: Object[] = [];
-  rowData: Object[] = [];
+  rowData: Observable<any>;
   frameworkComponents = { mySimpleEditor: CellEditor };
-  constructor(private formService: FormService, private datePipe: DatePipe) {}
+  userSub: Subscription;
+
+  constructor(
+    private formService: FormService,
+    private datePipe: DatePipe,
+    private tableService: TableService
+  ) {}
+
   ngOnInit(): void {
-    this.users$.subscribe((users) => {
-      users.map((user) => {
-        let name = user.name_cyr;
-        let dates = user.workingDays.map((user) => {
-          const userArr = Object.values(user);
-          const userObj = {
-            [userArr[0]]: userArr[1],
-          };
-          return userObj;
-        });
-        let newUser = {};
-        Object.assign(newUser, { name_cyr: name });
-        dates.forEach((date) => {
-          Object.assign(newUser, date);
-        });
-        this.rowData.push(newUser);
-        console.log(this.rowData);
-      });
-    });
-
+    this.rowData = this.tableService.getUserData();
     this.setupTable();
-
-    // console.log(this.columnDefs);
   }
 
   setupTable() {
-    const d = new Date('2022-01-01');
-    const f = new Date('2022-01-30');
+    //GET THE CURRENT MONTH AND RETURNS AN ARRAY OF DATES IN THE MONTH
+    const today = new Date();
+    let month = (today.getMonth() + 1).toString();
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+    let lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    console.log(lastDay.getDate());
+    const d = new Date(`2022-${month}-01`);
+    const f = new Date(`2022-${month}-${lastDay.getDate()}`);
     const dates = this.getDaysArray(d, f);
     const formatedDates = dates.map((date) =>
       this.datePipe.transform(date, 'yyyy-MM-dd')
     );
+
+    //POPULATES THE TABLE HEADERS
     const finalDates = formatedDates.map((date) => {
       return {
         field: date,
         cellEditor: 'mySimpleEditor',
         editable: true,
+        width: 110,
         singleClickEdit: true,
+        headerClass: '.my-header-class',
       };
     });
 
@@ -61,7 +61,6 @@ export class TableComponent implements OnInit {
       cellClass: 'locked-col',
     });
     this.columnDefs = this.columnDefs.concat(finalDates);
-    console.log(this.columnDefs);
   }
 
   getDaysArray(start: Date, end: Date) {
