@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormService } from 'src/app/form/services/form.service';
 import { DatePipe } from '@angular/common';
 import { CellEditor } from '../editor/cellEditor.component';
@@ -7,12 +7,20 @@ import { TableService } from '../../services/table.service';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css'],
+  styles: [
+    `
+      .my-header-class {
+        background: #673ab7;
+        color: white;
+      }
+    `,
+  ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent implements OnInit {
   users$ = this.formService.users$;
   columnDefs: Object[] = [];
-  rowData: Observable<any>;
+  rowData: Observable<Object[]>;
   frameworkComponents = { mySimpleEditor: CellEditor };
   userSub: Subscription;
 
@@ -51,7 +59,10 @@ export class TableComponent implements OnInit {
         editable: true,
         width: 110,
         singleClickEdit: true,
-        headerClass: '.my-header-class',
+        headerClass: this.checkIfWeekend(date) ? 'my-header-class' : null,
+        cellStyle: this.checkIfWeekend(date)
+          ? { backgroundColor: '#F8F8F8' }
+          : null,
       };
     });
 
@@ -61,6 +72,15 @@ export class TableComponent implements OnInit {
       cellClass: 'locked-col',
     });
     this.columnDefs = this.columnDefs.concat(finalDates);
+  }
+
+  checkIfWeekend(date: any) {
+    const current_date = new Date(date);
+    if (current_date.getDay() == 6 || current_date.getDay() == 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getDaysArray(start: Date, end: Date) {
@@ -74,6 +94,12 @@ export class TableComponent implements OnInit {
     return arr;
   }
   onCellClicked(event: any) {
-    console.log(event);
+    console.log('Cell Clicked: ', event);
+  }
+  onCellValueChanged(event: any) {
+    const name = event.data.name_cyr;
+    const date = event.colDef.field;
+    const value = event.newValue;
+    this.formService.updateEmployeeSchedule(name, date, value);
   }
 }

@@ -27,6 +27,8 @@ export class TableService {
           });
           return newUser;
         });
+        console.log(newUsers);
+
         return newUsers;
       })
     );
