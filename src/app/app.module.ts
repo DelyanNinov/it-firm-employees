@@ -9,11 +9,18 @@ import { DatePipe } from '@angular/common';
 import { HeaderModule } from './header/header.module';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { LoginModule } from './auth/login.module';
-import { RegisterModule } from './auth/register.module';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
+<<<<<<< HEAD
+  declarations: [
+    AppComponent,
+    
+    
+  ],
+=======
   declarations: [AppComponent],
+>>>>>>> 558852d228d4f17fa9ed0ce0133e842a0e9da379
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -21,10 +28,16 @@ import { RegisterModule } from './auth/register.module';
     TableModule,
     HeaderModule,
     FlexLayoutModule,
+<<<<<<< HEAD
+   AuthModule
+  ],
+  bootstrap:[AppComponent]
+=======
     LoginModule,
     RegisterModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
+>>>>>>> 558852d228d4f17fa9ed0ce0133e842a0e9da379
 })
 export class AppModule {}
