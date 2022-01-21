@@ -55,7 +55,11 @@ export class TableComponent implements OnInit {
       };
     });
 
-    this.columnDefs.push({ field: 'name_cyr' });
+    this.columnDefs.push({
+      field: 'name_cyr',
+      lockPosition: true,
+      cellClass: 'locked-col',
+    });
     this.columnDefs = this.columnDefs.concat(finalDates);
     console.log(this.columnDefs);
   }
