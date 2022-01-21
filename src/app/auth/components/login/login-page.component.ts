@@ -3,14 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { LoginData } from 'src/app/auth/types/loginData.interface';
 import { Router } from '@angular/router';
-import { AppRoutingModule } from 'src/app/app-routing.module';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: 'app-login-page',
+  templateUrl: './login-page.component.html',
+  styleUrls: ['./login-page.component.css'],
 })
-export class RegisterComponent implements OnInit {
+export class LoginPageComponent implements OnInit {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router
@@ -18,10 +17,10 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  register(data: LoginData) {
+  login(loginData: LoginData) {
     this.authService
-      .register(data)
-      .then(() => this.router.navigate(['/login']))
+      .login(loginData)
+      .then(() => this.router.navigate(['/form']))
       .catch((e) => console.log(e.message));
   }
 }

@@ -1,36 +1,17 @@
-<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
-    <mat-card class="box">
-      <mat-card-header>
-        <mat-card-title>Register</mat-card-title>
-      </mat-card-header>
-  
-      <form class="example-form">
-  
-        <mat-card-content>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Username">
-          </mat-form-field>
-  
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Email">
-          </mat-form-field>
-  
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Password">
-          </mat-form-field>
-  
-          <mat-form-field class="example-full-width">
-            <mat-label>Choose a role...</mat-label>
-            <mat-select>
-              <mat-option [value]="roles" *ngFor="let roles of Roles">{{roles}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-  
-        </mat-card-content>
-  
-        <button mat-stroked-button color="accent" class="btn-block">Register</button>
-  
-      </form>
-    </mat-card>
+<div class="background">
+  <div class="login-container">
+    <div class="form-container">
+      <h1>Welcome</h1>
+      <h5>Register with your email</h5>
+      <app-login (formData)="register($event)"></app-login>
+    </div>
+    <div class="text-container">
+      <h1>Hey Buddy</h1>
+      <p>
+        Already have an awesome account? Go ahead and click the button below to
+        sign in!
+      </p>
+      <button mat-button routerLink="/login">Sign in</button>
+    </div>
   </div>
+</div>
