@@ -10,10 +10,15 @@ import { AgGridModule } from 'ag-grid-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { CellEditor } from './components/editor/cellEditor.component';
+import { TablePageComponent } from './components/table-page/table-page.component';
 const routes = [
   {
     path: 'table',
     component: TableComponent,
+  },
+  {
+    path: 'table-page',
+    component: TablePageComponent,
   },
 ];
 @NgModule({
@@ -29,6 +34,6 @@ const routes = [
     FlexLayoutModule,
     AgGridModule.withComponents([CellEditor]),
   ],
-  declarations: [TableComponent, CellEditor],
+  declarations: [TableComponent, CellEditor, TablePageComponent],
 })
 export class TableModule {}

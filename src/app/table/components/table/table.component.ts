@@ -1,6 +1,13 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormService } from 'src/app/form/services/form.service';
-import { DatePipe } from '@angular/common';
 import { CellEditor } from '../editor/cellEditor.component';
 import { Observable, Subscription } from 'rxjs';
 import { TableService } from '../../services/table.service';
@@ -17,7 +24,10 @@ import { TableService } from '../../services/table.service';
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnChanges {
+  @ViewChild('table') private table: ElementRef;
+  @Input() startingDate: string = '';
+  @Input() endingDate: string = '';
   users$ = this.formService.users$;
   columnDefs: Object[] = [];
   rowData: Observable<Object[]>;
@@ -26,30 +36,20 @@ export class TableComponent implements OnInit {
 
   constructor(
     private formService: FormService,
-    private datePipe: DatePipe,
     private tableService: TableService
   ) {}
 
   ngOnInit(): void {
     this.rowData = this.tableService.getUserData();
-    this.setupTable();
   }
-
-  setupTable() {
-    //GET THE CURRENT MONTH AND RETURNS AN ARRAY OF DATES IN THE MONTH
-    const today = new Date();
-    let month = (today.getMonth() + 1).toString();
-    if (month.length < 2) {
-      month = '0' + month;
-    }
-    let lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    console.log(lastDay.getDate());
-    const d = new Date(`2022-${month}-01`);
-    const f = new Date(`2022-${month}-${lastDay.getDate()}`);
-    const dates = this.getDaysArray(d, f);
-    const formatedDates = dates.map((date) =>
-      this.datePipe.transform(date, 'yyyy-MM-dd')
+  ngOnChanges() {
+    //this.table.nativeElement.remove();
+    this.columnDefs = [];
+    let formatedDates = this.tableService.getFormatedDates(
+      this.startingDate,
+      this.endingDate
     );
+    console.log(this.startingDate);
 
     //POPULATES THE TABLE HEADERS
     const finalDates = formatedDates.map((date) => {
@@ -73,6 +73,7 @@ export class TableComponent implements OnInit {
     });
     this.columnDefs = this.columnDefs.concat(finalDates);
   }
+  setupTable() {}
 
   checkIfWeekend(date: any) {
     const current_date = new Date(date);
@@ -83,16 +84,6 @@ export class TableComponent implements OnInit {
     }
   }
 
-  getDaysArray(start: Date, end: Date) {
-    for (
-      var arr = [], dt = new Date(start);
-      dt <= end;
-      dt.setDate(dt.getDate() + 1)
-    ) {
-      arr.push(new Date(dt));
-    }
-    return arr;
-  }
   onCellClicked(event: any) {
     console.log('Cell Clicked: ', event);
   }
