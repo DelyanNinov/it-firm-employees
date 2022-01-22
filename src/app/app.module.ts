@@ -5,21 +5,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormModule } from './form/form.module';
 import { TableModule } from './table/table.module';
-import { DatePipe } from '@angular/common';
+import { DatePipe, TitleCasePipe } from '@angular/common';
 import { HeaderModule } from './header/header.module';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AuthModule } from './auth/auth.module';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideAuth, getAuth } from '@angular/fire/auth';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    
-    
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -27,11 +23,11 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
     TableModule,
     HeaderModule,
     FlexLayoutModule,
-   AuthModule,
-   provideFirebaseApp(() => initializeApp(environment.firebase)),
-   provideAuth(() => getAuth())
+    AuthModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
   ],
-  providers: [DatePipe],
-  bootstrap:[AppComponent]
+  providers: [DatePipe, TitleCasePipe],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

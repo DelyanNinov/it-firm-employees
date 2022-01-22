@@ -8,3 +8,8 @@
 .ag-theme-alpine .ag-ltr .ag-cell {
   border-right: 1px solid #d9dddf;
 }
+.ag-theme-alpine .ag-row-hover {
+  z-index: 4;
+  /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+}

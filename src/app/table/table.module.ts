@@ -13,10 +13,6 @@ import { CellEditor } from './components/editor/cellEditor.component';
 import { TablePageComponent } from './components/table-page/table-page.component';
 const routes = [
   {
-    path: 'table',
-    component: TableComponent,
-  },
-  {
     path: 'table-page',
     component: TablePageComponent,
   },

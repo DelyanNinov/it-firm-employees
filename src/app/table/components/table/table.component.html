@@ -1,4 +1,5 @@
-<ag-grid-angular #table style="width: 100%; height: 500px;" class="ag-theme-alpine" [rowData]="rowData | async"
-    [columnDefs]="columnDefs" autoSizeColumn (cellClicked)="onCellClicked($event)"
-    [frameworkComponents]="frameworkComponents" (cellValueChanged)="onCellValueChanged($event)">
+<ag-grid-angular [gridOptions]="gridOptions" #table style="width: 100%; height: 500px;" class="ag-theme-alpine"
+    [rowData]="rowData | async" [columnDefs]="columnDefs" autoSizeColumn (cellClicked)="onCellClicked($event)"
+    [frameworkComponents]="frameworkComponents" (cellValueChanged)="onCellValueChanged($event)"
+    [enableCellChangeFlash]="true" (gridReady)="onGridReady($event)">
 </ag-grid-angular>

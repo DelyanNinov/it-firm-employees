@@ -8,12 +8,15 @@ import { DatePipe } from '@angular/common';
 })
 export class TableService {
   constructor(private formService: FormService, private datePipe: DatePipe) {}
-
+  startDate = new Date();
+  endDate = new Date();
   getUserData() {
     const users$ = this.formService.users$.pipe(
       map((users) => {
         const newUsers = users.map((user) => {
           let name = user.name_cyr;
+          let workArea = user.work_area;
+          let company = user.company;
           let dates = user.workingDays.map((user) => {
             const userArr = Object.values(user);
             const userObj = {
@@ -22,12 +25,17 @@ export class TableService {
             return userObj;
           });
           let newUser = {};
-          Object.assign(newUser, { name_cyr: name });
+          Object.assign(newUser, {
+            name_cyr: name,
+            work_area: workArea,
+            company: company,
+          });
           dates.forEach((date) => {
             Object.assign(newUser, date);
           });
           return newUser;
         });
+        console.log(newUsers);
         return newUsers;
       })
     );
@@ -36,8 +44,6 @@ export class TableService {
 
   getFormatedDates(start: string, end: string) {
     //GET THE CURRENT MONTH AND RETURNS AN ARRAY OF DATES IN THE MONTH
-    let startDate = new Date();
-    let endDate = new Date();
 
     const today = new Date();
     let year = today.getFullYear();
@@ -48,23 +54,23 @@ export class TableService {
     let lastDay = new Date(year, today.getMonth() + 1, 0);
 
     if (start === '' && end === '') {
-      startDate = new Date(`${year}-${month}-01`);
-      endDate = new Date(`${year}-${month}-${lastDay.getDate()}`);
+      this.startDate = new Date(`${year}-${month}-01`);
+      this.endDate = new Date(`${year}-${month}-${lastDay.getDate()}`);
     } else if (start !== '' && end === '') {
-      startDate = new Date(start);
-      endDate = new Date(`${year}-${month}-${lastDay.getDate()}`);
+      this.startDate = new Date(start);
+      this.endDate = new Date(`${year}-${month}-${lastDay.getDate()}`);
     } else if (start === '' && end !== '') {
-      startDate = new Date(`${year}-${month}-01`);
-      endDate = new Date(end);
+      this.startDate = new Date(`${year}-${month}-01`);
+      this.endDate = new Date(end);
     } else {
-      startDate = new Date(start);
-      endDate = new Date(end);
+      this.startDate = new Date(start);
+      this.endDate = new Date(end);
     }
 
-    const dates = this.getDaysArray(startDate, endDate);
-    const formatedDates = dates.map((date) =>
-      this.datePipe.transform(date, 'yyyy-MM-dd')
-    );
+    const dates = this.getDaysArray(this.startDate, this.endDate);
+    const formatedDates = dates.map((date) => {
+      return this.datePipe.transform(date, 'yyyy-MM-dd');
+    });
     return formatedDates;
   }
 
