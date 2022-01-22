@@ -20,11 +20,12 @@ import { DatePipe, TitleCasePipe } from '@angular/common';
       .weekend-header-class {
         font-weight: bold;
         background: #d4f1f4;
-        color: #05445e;
+        color: #5d8399;
       }
       .weekday-header-class {
         font-weight: bold;
-        color: #05445e;
+        background: #f8f8f8;
+        color: #3b4d57;
       }
 
       .home-class {
@@ -75,13 +76,13 @@ export class TableComponent implements OnInit, OnChanges {
   }
   ngOnInit(): void {
     //GET USER DATA
-    console.log(this.refresh);
+    console.log('ON INIT');
     this.rowData = this.tableService.getUserData();
   }
 
   ngOnChanges() {
     console.log('ON CHANGE');
-    this.refresh++;
+    //this.refresh++;
     // const params = {
     //   force: true,
     // };
@@ -139,7 +140,7 @@ export class TableComponent implements OnInit, OnChanges {
           return 'default-class';
         },
         cellStyle: this.checkIfWeekend(date)
-          ? { backgroundColor: '#F8F8F8' }
+          ? { backgroundColor: '#D4F1F4' }
           : null,
       };
     });
@@ -151,7 +152,7 @@ export class TableComponent implements OnInit, OnChanges {
     this.columnDefs.push(
       {
         resizable: true,
-        width: '150',
+        width: 150,
         headerName: 'Име',
         field: 'name_cyr',
         pinned: 'left',
@@ -161,36 +162,39 @@ export class TableComponent implements OnInit, OnChanges {
           debounceMs: 200,
         },
         cellClass: 'locked-col',
+        headerClass: 'weekday-header-class',
       },
       //////////////////////
       // WORKING AREA COLUMN
       //////////////////////
       {
         resizable: true,
-        width: '150',
+        width: 150,
         headerName: 'Специалност',
         field: 'work_area',
         pinned: 'left',
         sortable: true,
         cellClass: 'locked-col',
+        headerClass: 'weekday-header-class',
       },
       //////////////////////
       // COMPANY AREA COLUMN
       //////////////////////
       {
         headerName: 'Компания',
+        resizable: true,
+        width: 120,
         field: 'company',
         pinned: 'left',
         sortable: true,
         cellClass: 'locked-col',
+        headerClass: 'weekday-header-class',
       },
       //////////////////////
       // TOTAL WORKING DAYS COLUMN
       //////////////////////
       {
         headerComponentParams: {
-          resizable: true,
-          width: '100px',
           template: `<div class="ag-cell-label-container" role="presentation">  
           <span ref="eMenu" class="ag-header-icon ag-header-cell-menu-button"></span>  
           <div ref="eLabel" class="ag-header-cell-label" role="presentation">    
@@ -207,10 +211,13 @@ export class TableComponent implements OnInit, OnChanges {
           </div>
       </div>`,
         },
+        resizable: true,
+        width: 120,
         valueGetter: this.allWorkDaysValueGetter.bind(this),
         pinned: 'left',
         sortable: true,
         cellClass: 'locked-col',
+        headerClass: 'weekday-header-class',
       }
     );
 
@@ -228,13 +235,13 @@ export class TableComponent implements OnInit, OnChanges {
     const daysRangeArr = this.tableService
       .getDaysArray(new Date(this.startingDate), new Date(this.endingDate))
       .map((date) => this.datePipe.transform(date, 'yyyy-MM-dd'));
-    console.log(daysRangeArr);
 
     for (const [key, value] of Object.entries(params.data)) {
-      console.log(new Date(key));
-      if (daysRangeArr.includes(key)) {
-        if (value === 'office' || value === 'home') {
-          allOffice++;
+      if (typeof new Date(key).getMonth === 'function') {
+        if (daysRangeArr.includes(key)) {
+          if (value === 'office' || value === 'home') {
+            allOffice++;
+          }
         }
       }
     }
