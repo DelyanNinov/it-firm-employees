@@ -12,6 +12,7 @@ import { CellEditor } from '../editor/cellEditor.component';
 import { Observable, Subscription } from 'rxjs';
 import { TableService } from '../../services/table.service';
 import { DatePipe, TitleCasePipe } from '@angular/common';
+import { CustomTooltip } from '../tooltip/tooltip.component';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -23,24 +24,33 @@ import { DatePipe, TitleCasePipe } from '@angular/common';
         color: #5d8399;
       }
       .weekday-header-class {
+        text-align: center;
         font-weight: bold;
         background: #f8f8f8;
         color: #3b4d57;
       }
 
       .home-class {
+        text-align: center;
         font-weight: medium;
         background: #75e6da;
         color: #05445e;
       }
 
       .office-class {
+        text-align: center;
         background: #2e8bc0;
         color: white;
       }
 
       .rest-class {
+        text-align: center;
         background: #f8f8f8;
+        color: #05445e;
+      }
+      .sick-class {
+        text-align: center;
+        background: #e3bec6;
         color: #05445e;
       }
     `,
@@ -54,7 +64,7 @@ export class TableComponent implements OnInit, OnChanges {
 
   columnDefs: Object[] = [];
   rowData: Observable<Object[]>;
-  frameworkComponents = { mySimpleEditor: CellEditor };
+  frameworkComponents: Object;
   userSub: Subscription;
   gridOptions = {
     headerHeight: 80,
@@ -137,6 +147,9 @@ export class TableComponent implements OnInit, OnChanges {
           if (params.value === 'office') {
             return 'office-class';
           }
+          if (params.value === 'sick') {
+            return 'sick-class';
+          }
           return 'default-class';
         },
         cellStyle: this.checkIfWeekend(date)
@@ -146,15 +159,18 @@ export class TableComponent implements OnInit, OnChanges {
     });
 
     //////////////////////
-    // NAME AREA COLUMN
+    // NAME COLUMN
     //////////////////////
 
     this.columnDefs.push(
       {
+        field: 'name_cyr',
         resizable: true,
         width: 150,
+        tooltipComponent: 'customTooltip',
+        tooltipField: 'name_cyr',
+        tooltipComponentParams: { color: '#ececec' },
         headerName: 'Име',
-        field: 'name_cyr',
         pinned: 'left',
         filter: 'agTextColumnFilter',
         filterParams: {
@@ -218,24 +234,31 @@ export class TableComponent implements OnInit, OnChanges {
         sortable: true,
         cellClass: 'locked-col',
         headerClass: 'weekday-header-class',
+      },
+      //////////////////////
+      // TOTAL SICK DAYS
+      //////////////////////
+      {
+        headerName: 'Болнични',
+        resizable: true,
+        width: 120,
+        valueGetter: this.allSickDaysValueGetter.bind(this),
+        pinned: 'left',
+        sortable: true,
+        cellClass: 'locked-col',
+        headerClass: 'weekday-header-class',
       }
     );
 
     this.columnDefs = this.columnDefs.concat(finalDates);
+    this.frameworkComponents = {
+      mySimpleEditor: CellEditor,
+      customTooltip: CustomTooltip,
+    };
   }
   allWorkDaysValueGetter(params: any) {
     let allOffice = 0;
-
-    if (this.startingDate === '') {
-      this.startingDate = this.tableService.startDate.toString();
-    }
-    if (this.endingDate === '') {
-      this.endingDate = this.tableService.endDate.toString();
-    }
-    const daysRangeArr = this.tableService
-      .getDaysArray(new Date(this.startingDate), new Date(this.endingDate))
-      .map((date) => this.datePipe.transform(date, 'yyyy-MM-dd'));
-
+    const daysRangeArr = this.checkDateRange();
     for (const [key, value] of Object.entries(params.data)) {
       if (typeof new Date(key).getMonth === 'function') {
         if (daysRangeArr.includes(key)) {
@@ -245,8 +268,34 @@ export class TableComponent implements OnInit, OnChanges {
         }
       }
     }
-
     return allOffice;
+  }
+  allSickDaysValueGetter(params: any) {
+    let allSick = 0;
+    const daysRangeArr = this.checkDateRange();
+    for (const [key, value] of Object.entries(params.data)) {
+      if (typeof new Date(key).getMonth === 'function') {
+        if (daysRangeArr.includes(key)) {
+          if (value === 'sick') {
+            allSick++;
+          }
+        }
+      }
+    }
+    return allSick;
+  }
+
+  checkDateRange() {
+    if (this.startingDate === '') {
+      this.startingDate = this.tableService.startDate.toString();
+    }
+    if (this.endingDate === '') {
+      this.endingDate = this.tableService.endDate.toString();
+    }
+    const daysRangeArr = this.tableService
+      .getDaysArray(new Date(this.startingDate), new Date(this.endingDate))
+      .map((date) => this.datePipe.transform(date, 'yyyy-MM-dd'));
+    return daysRangeArr;
   }
   getName(date: string) {
     return this.titleCasePipe.transform(

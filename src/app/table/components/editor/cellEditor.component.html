@@ -1,4 +1,4 @@
-<mat-select #selectedValue style="width: 60px; margin-top:20px; margin-left:20px"
+<mat-select #selectedValue style="width: 100px; margin-top:20px; margin-left:20px;"
     (selectionChange)="onChange($event.value)">
-    <mat-option *ngFor="let day of scheduleList" [value]="day">{{day}}</mat-option>
+    <mat-option style="text-align:center" *ngFor="let day of scheduleList" [value]="day">{{day}}</mat-option>
 </mat-select>

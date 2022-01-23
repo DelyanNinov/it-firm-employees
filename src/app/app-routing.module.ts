@@ -1,16 +1,30 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginPageComponent } from '../app/auth/components/login/login-page.component';
-import { RegisterComponent } from './auth/components/register/register.component';
-import { TableComponent } from './table/components/table/table.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginPageComponent },
-  { path: 'register', component: RegisterComponent },
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
+  {
+    path: 'form',
+    loadChildren: () => import('./form/form.module').then((m) => m.FormModule),
+  },
+  {
+    path: 'table',
+    loadChildren: () =>
+      import('./table/table.module').then((m) => m.TableModule),
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule, CommonModule],
 })
 export class AppRoutingModule {}

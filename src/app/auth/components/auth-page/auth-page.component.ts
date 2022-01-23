@@ -5,11 +5,11 @@ import { LoginData } from 'src/app/auth/types/loginData.interface';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login-page',
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.css'],
+  selector: 'app-auth-page',
+  templateUrl: './auth-page.component.html',
+  styleUrls: ['./auth-page.component.css'],
 })
-export class LoginPageComponent implements OnInit {
+export class AuthPageComponent implements OnInit {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router

@@ -7,6 +7,7 @@ import { FormModule } from './form/form.module';
 import { TableModule } from './table/table.module';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { HeaderModule } from './header/header.module';
+import { HttpClientModule } from '@angular/common/http';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AuthModule } from './auth/auth.module';

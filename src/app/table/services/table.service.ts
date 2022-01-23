@@ -14,9 +14,6 @@ export class TableService {
     const users$ = this.formService.users$.pipe(
       map((users) => {
         const newUsers = users.map((user) => {
-          let name = user.name_cyr;
-          let workArea = user.work_area;
-          let company = user.company;
           let dates = user.workingDays.map((user) => {
             const userArr = Object.values(user);
             const userObj = {
@@ -26,16 +23,17 @@ export class TableService {
           });
           let newUser = {};
           Object.assign(newUser, {
-            name_cyr: name,
-            work_area: workArea,
-            company: company,
+            name_cyr: user.name_cyr,
+            work_area: user.work_area,
+            company: user.company,
+            email: user.email,
+            telephone: user.telephone,
           });
           dates.forEach((date) => {
             Object.assign(newUser, date);
           });
           return newUser;
         });
-        console.log(newUsers);
         return newUsers;
       })
     );

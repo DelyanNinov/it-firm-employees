@@ -1,23 +1,28 @@
-
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from '../auth/components/login/login.component';
-import { LoginPageComponent } from '../auth/components/login/login-page.component';
 import { RegisterComponent } from './components/register/register.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { AuthPageComponent } from './components/auth-page/auth-page.component';
+import { MaterialModule } from '../shared/modules/material/material.module';
+import { RouterModule } from '@angular/router';
+const routes = [
+  {
+    path: '',
+    component: AuthPageComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+];
 @NgModule({
-  declarations: [LoginPageComponent, LoginComponent, RegisterComponent],
+  declarations: [AuthPageComponent, LoginComponent, RegisterComponent],
   imports: [
     CommonModule,
-    
     ReactiveFormsModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatButtonModule,
+    MaterialModule,
+    RouterModule.forChild(routes),
   ],
 })
 export class AuthModule {}

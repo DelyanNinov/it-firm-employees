@@ -15,18 +15,32 @@ export class CellEditor implements AgEditorComponent, AfterViewInit {
   @ViewChild('selectedValue') selectedValue: MatSelect;
   private params: any;
   value: string;
-  scheduleList: string[] = ['office', 'home', 'rest'];
+  defaultValue: string;
+  scheduleList: string[] = ['office', 'home', 'sick', 'rest'];
 
   public input: ViewContainerRef;
 
   ngAfterViewInit() {
     console.log('ngAfterViewInit');
     this.selectedValue.open();
+    this.selectedValue.openedChange.subscribe((opened) => {
+      if (opened) {
+        this.selectedValue.panel.nativeElement.addEventListener(
+          'mouseleave',
+          () => {
+            this.value = this.defaultValue;
+            this.params.stopEditing();
+          }
+        );
+      }
+    });
     // focus on the input
     //setTimeout(() => this.input.element.nativeElement.focus());
   }
 
   agInit(params: any): void {
+    console.log();
+
     this.params = params;
   }
 
@@ -41,7 +55,7 @@ export class CellEditor implements AgEditorComponent, AfterViewInit {
   // Gets called once before editing starts, to give editor a chance to
   // cancel the editing before it even starts.
   isCancelBeforeStart() {
-    console.log('isCancelBeforeStart');
+    this.defaultValue = this.params.value;
     return false;
   }
 

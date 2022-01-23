@@ -13,6 +13,7 @@ export class FormService {
       name_cyr: 'Delyan Ninov',
       name_latin: 'Delyan Ninov',
       email: 'dninov@gmail.com',
+      telephone: '0885 210 215 202',
       work_area: 'JavaScript',
       company: 'Mega Bankruptcy LTD',
       workingDays: [
@@ -26,6 +27,7 @@ export class FormService {
       name_cyr: 'Ivan Ivanov',
       name_latin: 'Ivan Ivanov',
       email: 'ivan@gmail.com',
+      telephone: '0885 335 215 554',
       work_area: 'Python',
       company: 'Mega Bankruptcy LTD',
       workingDays: [
@@ -39,12 +41,15 @@ export class FormService {
       name_cyr: 'Georgi Dimitrov',
       name_latin: 'Georgi Dimitrov',
       email: 'georgi@gmail.com',
+      telephone: '0885 335 215 554',
       company: 'Mega Bankruptcy LTD',
       work_area: 'Project Manager',
       workingDays: [
         { date: '2022-01-03', shift: 'rest' },
         { date: '2022-01-04', shift: 'home' },
         { date: '2022-01-05', shift: 'office' },
+        { date: '2022-01-06', shift: 'sick' },
+        { date: '2022-01-07', shift: 'sick' },
       ],
     },
     {
@@ -52,6 +57,7 @@ export class FormService {
       name_cyr: 'Panayot Hitov',
       name_latin: 'Panayot Hitov',
       email: 'panayot@gmail.com',
+      telephone: '0885 335 215 554',
       work_area: 'Java',
       company: 'Ultra Falitis LTD',
       workingDays: [
@@ -65,6 +71,7 @@ export class FormService {
       name_cyr: 'Rumen Rumen',
       name_latin: 'Rumen Rumen',
       email: 'rumen@gmail.com',
+      telephone: '0885 335 215 554',
       work_area: 'Java',
       company: 'Ultra Falitis LTD',
       workingDays: [
@@ -89,12 +96,9 @@ export class FormService {
 
     if (existingDay?.length) {
       existingDay[0].shift = shift;
-      console.log(usersArr);
     } else {
       user?.workingDays.push({ date: date, shift: shift });
-      console.log(usersArr);
     }
     this.users$.next([...usersArr]);
-    console.log(this.users$.getValue());
   }
 }
