@@ -11,9 +11,15 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
   userSub: Subscription;
-  userEmail: string;
+  userEmail: string = '';
   ngOnInit() {
-    this.authService.user$.subscribe((r) => (this.userEmail = r.email));
+    this.authService.user$.subscribe((r) => {
+      if (r === null || r === undefined) {
+        this.userEmail = '';
+      } else {
+        this.userEmail = r.email;
+      }
+    });
   }
   logout() {
     this.authService

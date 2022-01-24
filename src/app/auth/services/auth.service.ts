@@ -8,7 +8,7 @@ import {
 // import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Injectable } from '@angular/core';
 import { LoginData } from '../types/loginData.interface';
-import { Observable } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -29,8 +29,7 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('user');
-    //this.userData.next([]);
+    this.user$ = of({});
     return signOut(this.auth);
   }
 }
