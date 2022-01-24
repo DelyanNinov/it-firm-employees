@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
@@ -11,15 +11,15 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
   userSub: Subscription;
-  userEmail: string = '';
+  userEmail: Observable<any>;
   ngOnInit() {
-    this.authService.user$.subscribe((r) => {
-      if (r === null || r === undefined) {
-        this.userEmail = '';
-      } else {
-        this.userEmail = r.email;
-      }
-    });
+    this.userEmail = this.authService.user$.pipe(
+      map((userData) => {
+        if (userData) {
+          return userData.email;
+        }
+      })
+    );
   }
   logout() {
     this.authService

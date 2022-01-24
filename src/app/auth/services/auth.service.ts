@@ -9,6 +9,7 @@ import {
 import { Injectable } from '@angular/core';
 import { LoginData } from '../types/loginData.interface';
 import { Observable, of, Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ import { Observable, of, Subject } from 'rxjs';
 export class AuthService {
   user$: Observable<any | null>;
 
-  constructor(private auth: Auth) {
+  constructor(private auth: Auth, private router: Router) {
     this.user$ = authState(auth);
   }
 
@@ -30,6 +31,6 @@ export class AuthService {
 
   logout() {
     this.user$ = of({});
-    return signOut(this.auth);
+    return this.auth.signOut();
   }
 }

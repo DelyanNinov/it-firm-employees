@@ -1,12 +1,14 @@
-<mat-form-field>
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate placeholder="Start date" (dateInput)="OnDateStartChange($event.value)">
-        <input matEndDate placeholder="End date" (dateInput)="OnDateEndChange($event.value)">
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-</mat-form-field>
+<div fxLayout="row" fxLayoutAlign='center start'>
+    <mat-form-field>
+        <mat-label>Въведете период</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Start date" (dateInput)="OnDateStartChange($event.value)">
+            <input matEndDate placeholder="End date" (dateInput)="OnDateEndChange($event.value)">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+</div>
 
 
 <app-table [startingDate]='startingDate' [endingDate]='endingDate'></app-table>

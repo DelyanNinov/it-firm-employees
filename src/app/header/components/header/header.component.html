@@ -1,12 +1,10 @@
-<mat-toolbar color="primary" class="app-header">
+<mat-toolbar color="primary" class="app-header" *ngIf="userEmail | async">
   <div>
-    <a mat-raised-button routerLinkActive="activebutton" routerLink="/form">Form</a>
-    <a mat-raised-button routerLinkActive="activebutton" routerLink="/table">Table</a>
-    <ng-container *ngIf="userEmail !== '' ">
-      <a mat-raised-button (click)="logout()" routerLink="/">Logout</a>
-    </ng-container>
+    <a mat-raised-button routerLinkActive="activebutton" routerLink="/form">Форма</a>
+    <a mat-raised-button routerLinkActive="activebutton" routerLink="/table">График</a>
+    <a mat-raised-button (click)="logout()" routerLink="/">Изход</a>
   </div>
-  <div fxFlex fxLayoutAlign="flex-end" *ngIf="userEmail !== '' ">
-    <p>{{userEmail}}</p>
+  <div fxFlex fxLayoutAlign="flex-end">
+    <p>{{userEmail | async}}</p>
   </div>
 </mat-toolbar>

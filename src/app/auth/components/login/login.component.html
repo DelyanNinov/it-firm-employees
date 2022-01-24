@@ -1,24 +1,24 @@
 <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-form-field class="form-control">
-    <mat-label>Email</mat-label>
+    <mat-label>Имейл</mat-label>
     <input matInput formControlName="email" type="text" required />
     <mat-error *ngIf="email?.hasError('required')">
-      Email is required
+      Моля въведете имейл
     </mat-error>
     <mat-error *ngIf="email?.hasError('email')">
-      Email isn't valid. Please enter a valid email.
+      Моля въведете валиден имейл
     </mat-error>
   </mat-form-field>
   <mat-form-field class="form-control">
-    <mat-label>Password</mat-label>
+    <mat-label>Парола</mat-label>
     <input matInput formControlName="password" type="password" required />
     <mat-error *ngIf="password?.hasError('required')">
-      Password is required
+      Паролата е задължителна
     </mat-error>
   </mat-form-field>
   <div class="form-footer">
     <button [disabled]="form.invalid" mat-raised-button type="submit">
-      Submit
+      Вход
     </button>
   </div>
 </form>
