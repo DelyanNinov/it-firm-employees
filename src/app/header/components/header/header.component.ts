@@ -10,8 +10,9 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 })
 export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
-  userSub: Subscription;
+
   userEmail: Observable<any>;
+
   ngOnInit() {
     this.userEmail = this.authService.user$.pipe(
       map((userData) => {

@@ -23,7 +23,7 @@ export class AuthenticationGuard implements CanActivate {
     | boolean
     | UrlTree {
     return this.authService.user$.pipe(
-      map((userData) => (userData ? true : this.router.createUrlTree([''])))
+      map((userData) => (userData ? true : this.router.createUrlTree(['/'])))
     );
   }
 }

@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthPageComponent } from './components/auth-page/auth-page.component';
 import { MaterialModule } from '../shared/modules/material/material.module';
 import { RouterModule } from '@angular/router';
+import { HasUserGuard } from '../shared/services/guards/hasUser.guard';
 const routes = [
   {
     path: '',
@@ -14,6 +15,7 @@ const routes = [
   {
     path: 'register',
     component: RegisterComponent,
+    canActivate: [HasUserGuard],
   },
 ];
 @NgModule({

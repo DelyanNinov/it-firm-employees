@@ -34,6 +34,7 @@ export class FormService {
         { date: '2022-01-03', shift: 'home' },
         { date: '2022-01-04', shift: 'office' },
         { date: '2022-01-05', shift: 'rest' },
+        { date: '2022-01-07', shift: 'rest' },
       ],
     },
     {

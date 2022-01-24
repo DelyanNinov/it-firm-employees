@@ -1,4 +1,8 @@
-<mat-select #selectedValue style="width: 100px; margin-top:20px; margin-left:20px;"
-    (selectionChange)="onChange($event.value)">
-    <mat-option style="text-align:center" *ngFor="let day of scheduleList" [value]="day">{{day}}</mat-option>
-</mat-select>
+<div fxLayout="column">
+    <mat-select #selectedValue style="width: 100px; margin-top:20px; margin-left:20px;"
+        (selectionChange)="onChange($event.value)">
+        <mat-option style="text-align:center" *ngFor="let day of scheduleList" [value]="day">{{day}}</mat-option>
+        <input type="number" style="text-align:center; margin-bottom: 10px;" matInput placeholder="ЧАСОВЕ"
+            [ngModel]="hours" (ngModelChange)="onInputChange($event)">
+    </mat-select>
+</div>

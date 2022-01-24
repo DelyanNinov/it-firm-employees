@@ -17,7 +17,7 @@ export class CellEditor implements AgEditorComponent, AfterViewInit {
   value: string;
   defaultValue: string;
   scheduleList: string[] = ['office', 'home', 'sick', 'rest'];
-
+  hours: number;
   public input: ViewContainerRef;
 
   ngAfterViewInit() {
@@ -71,7 +71,15 @@ export class CellEditor implements AgEditorComponent, AfterViewInit {
     }
   }
   onChange(value: any) {
+    if (this.hours) {
+    }
     this.value = value;
     this.params.stopEditing();
+  }
+  onInputChange(value: number) {
+    console.log(value);
+
+    this.hours = value;
+    this.value = value.toString();
   }
 }
